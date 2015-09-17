@@ -29,6 +29,7 @@ void setup() {
     pinMode(motor_left[i], OUTPUT);
     pinMode(motor_right[i], OUTPUT);
   }
+  drive_forward();
 }
 
 void loop() {
