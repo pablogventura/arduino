@@ -2,74 +2,70 @@
 // copyright Adafruit Industries LLC, 2009
 // this code is public domain, enjoy!
 
-#include <AFMotor.h>
 #include <Arduino.h>
 #define VEL (5000)
 
-AF_DCMotor motorizq(1);
-AF_DCMotor motorder(2);
+int motor_left[] = {5, 6};
+int motor_right[] = {10, 11};
 int izq;
 int der;
-int vder;
-int vizq;
+int flag = 0;
+
+void drive_forward();
+void drive_backward();
+void encizq();
+void encder();
+void cambia();
 
 void setup() {
 
     Serial.begin(9600);
-    
-    
 
-    motorizq.run(FORWARD);
-    motorizq.setSpeed(255);
+    attachInterrupt(digitalPinToInterrupt(2), encizq, CHANGE); 
+    attachInterrupt(digitalPinToInterrupt(3), encder, CHANGE); 
 
-    motorder.run(FORWARD);
-    motorder.setSpeed(255);  
+  int i;
+  for (i = 0; i < 2; i++) {
+    pinMode(motor_left[i], OUTPUT);
+    pinMode(motor_right[i], OUTPUT);
+  }
 }
 
-void loop() {  
-    delay(100);
-    pulseIn(9,LOW);
-    der = abs(pulseIn(9,HIGH));
-    
-    pulseIn(10,LOW);
-    izq= abs(pulseIn(10,HIGH));
-    Serial.print("Der: ");
-    Serial.println(der);
-    Serial.print("Izq: ");
-    Serial.println(izq);
-    Serial.print("VDer: ");
-    Serial.println(vder);
-    Serial.print("VIzq: ");
-    Serial.println(vizq);    
-    if (izq > VEL){
-        vizq=vizq-1;
+void loop() {
+    if (izq % 40 == 0){
+        cambia();
     }
-    if (izq < VEL){
-        vizq=vizq+1;
-    }
-    if (der > VEL){
-        vder=vder-1;
-    }
-    if (der < VEL){
-        vder=vder+1;
-    }
-    
-    if (vizq>255){
+}
 
-        vizq=255;
+void cambia(){
+    flag = !flag;
+    if (flag){
+        drive_forward();
+    }else{
+        drive_backward();
     }
-    if (vder>255){
+}
 
-        vder=255;
-    }    
-    if (vizq<100){
+void encizq(){
+    izq++;
+}
+void encder(){
+    der++;
+}
 
-        vizq=100;
-    }
-    if (vder<100){
 
-        vder=100;
-    }
-    motorizq.setSpeed(vizq);
-    motorder.setSpeed(vder);  
+void drive_forward() {
+  digitalWrite(motor_left[0], HIGH);
+  digitalWrite(motor_left[1], LOW);
+
+  digitalWrite(motor_right[0], HIGH);
+  digitalWrite(motor_right[1], LOW);
+}
+
+void drive_backward() {
+  digitalWrite(motor_left[0], LOW);
+  digitalWrite(motor_left[1], HIGH);
+
+  digitalWrite(motor_right[0], LOW);
+  digitalWrite(motor_right[1], HIGH);
 }
