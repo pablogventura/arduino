@@ -32,8 +32,9 @@ void setup() {
 }
 
 void loop() {
-    if (izq % 40 == 0){
+    if (izq >= 40){
         cambia();
+        izq = 0;
     }
 }
 
