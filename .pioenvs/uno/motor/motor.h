@@ -25,7 +25,8 @@ public:
     void run(int velocidad);
     void internalRun(int velocidad);
     void calibrate();
-    int rps(); //revolutions per second
+    float rps(); //revolutions per second
+    float vel();
 
 };
 #endif

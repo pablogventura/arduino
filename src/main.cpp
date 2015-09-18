@@ -17,7 +17,7 @@ void setup() {
 }
 
 void loop() {
-    mIzq.run(40);
+    mIzq.run(255);
     Serial.println(mIzq.rps());
 
 }

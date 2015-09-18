@@ -66,11 +66,14 @@ unsigned long Motor::timeToLine(){
     return result;
 }
 
-int Motor::rps(){
-    int result = 50000/timeToLine();
+float Motor::rps(){
+    float result = float(50000)/timeToLine();
     return result;
 }
 
+float Motor::vel(){
+    return rps() * float(21.7);
+}
 void Motor::stop(){
     pulse = 0;
     digitalWrite(pinF, LOW);
