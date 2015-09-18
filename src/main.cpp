@@ -11,9 +11,9 @@ Motor mIzq = Motor(5, 6, 2);
 void setup() {
 
     Serial.begin(9600);
-
+    mIzq.run(255);
 }
 
 void loop() {
-
+    Serial.println(mIzq.vel());
 }
