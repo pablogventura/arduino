@@ -6,6 +6,8 @@ unsigned long vDer = 0;
 
 Motor::Motor(byte pinForward, byte pinBackward, byte pinEncoder){
     minpulse = 0;
+    pulse = 0; 
+    sentido = 0;
     pinF=pinForward;
     pinB=pinBackward;
     pinE=pinEncoder;
@@ -13,6 +15,12 @@ Motor::Motor(byte pinForward, byte pinBackward, byte pinEncoder){
     pinMode(pinB, OUTPUT);
     pinMode(pinE, INPUT);
     stop();
+}
+Motor::Motor(){
+    minpulse = 0;
+    pinF=0;
+    pinB=0;
+    pinE=0;
 }
 void Motor::internalRun(int velocidad){
     if (abs(velocidad) <= minpulse){
@@ -75,6 +83,15 @@ float Motor::vel(){
     return rps() * float(21.7);
 }
 void Motor::stop(){
+    if (pulse > 0){
+        if (sentido == FORWARD){
+            run(-255);
+            delay(10);
+        }else{
+            run(255);
+            delay(10);
+        }
+    }    
     pulse = 0;
     digitalWrite(pinF, LOW);
     digitalWrite(pinB, LOW);
@@ -94,3 +111,4 @@ void Motor::calibrate(){
     }
     stop();
 }
+    

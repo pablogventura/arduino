@@ -3,21 +3,19 @@
 // this code is public domain, enjoy!
 
 #include <Arduino.h>
-#include "motor.h"
+#include "motores.h"
 #define VEL (5000)
 
 
-Motor mIzq = Motor(5, 6, 2);
-Motor mDer = Motor(10, 11, 3);
+Motores motores = Motores(5, 6, 2, 10, 11, 3);
 void setup() {
 
     Serial.begin(9600);
     //mIzq.calibrate();
     //mDer.calibrate();
+    motores.run(255,100);
 }
 
 void loop() {
-    mIzq.run(255);
-    Serial.println(mIzq.rps());
-
+    //TODO ACA TODO SE REPITE
 }

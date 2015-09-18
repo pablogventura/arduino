@@ -20,6 +20,7 @@ public:
 
     // Constructores
     Motor(byte pinForward, byte pinBackward, byte pinEncoder);
+    Motor();
     void stop(void);
     unsigned long timeToLine();
     void run(int velocidad);
