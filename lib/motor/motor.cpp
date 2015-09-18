@@ -71,3 +71,18 @@ void Motor::stop(){
     digitalWrite(pinF, LOW);
     digitalWrite(pinB, LOW);
 }
+
+void Motor::calibrate(){
+    stop();
+    int cvel = -255;
+    Serial.begin(9600);
+    for (cvel = -255;cvel <=255;cvel++){
+        Serial.print(cvel);
+        Serial.print(" ,");
+        Serial.println(vel());
+        delay(100);
+        run(cvel);
+        cvel++;
+    }
+    stop();
+}

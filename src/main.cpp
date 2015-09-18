@@ -8,22 +8,15 @@
 
 
 Motor mIzq = Motor(5, 6, 2);
-
-int vel = -255;
-
-
+Motor mDer = Motor(10, 11, 3);
 void setup() {
 
     Serial.begin(9600);
+    mIzq.calibrate();
+    mDer.calibrate();
 }
 
 void loop() {
 
-    Serial.print(vel);
-    Serial.print(" ,");
-    Serial.println(mIzq.vel());
-    delay(100);
-    mIzq.run(vel);
-    vel++;
 
 }

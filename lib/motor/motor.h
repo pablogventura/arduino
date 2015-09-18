@@ -24,6 +24,7 @@ public:
     unsigned long vel();
     void run(int velocidad);
     void internalRun(int velocidad);
+    void calibrate();
 
 };
 #endif
