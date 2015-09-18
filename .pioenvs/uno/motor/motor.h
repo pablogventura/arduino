@@ -14,17 +14,18 @@ private:
     byte pinE;
     byte pulse;
     byte sentido;
-    unsigned long minvel;
+    unsigned long minpulse;
 
 public:
 
     // Constructores
     Motor(byte pinForward, byte pinBackward, byte pinEncoder);
     void stop(void);
-    unsigned long vel();
+    unsigned long timeToLine();
     void run(int velocidad);
     void internalRun(int velocidad);
     void calibrate();
+    int rps(); //revolutions per second
 
 };
 #endif

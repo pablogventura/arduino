@@ -12,11 +12,12 @@ Motor mDer = Motor(10, 11, 3);
 void setup() {
 
     Serial.begin(9600);
-    mIzq.calibrate();
-    mDer.calibrate();
+    //mIzq.calibrate();
+    //mDer.calibrate();
 }
 
 void loop() {
-
+    mIzq.run(40);
+    Serial.println(mIzq.rps());
 
 }

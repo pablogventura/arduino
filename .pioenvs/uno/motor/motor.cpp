@@ -5,7 +5,7 @@ unsigned long vIzq = 0;
 unsigned long vDer = 0;
 
 Motor::Motor(byte pinForward, byte pinBackward, byte pinEncoder){
-    minvel = 0;
+    minpulse = 0;
     pinF=pinForward;
     pinB=pinBackward;
     pinE=pinEncoder;
@@ -15,7 +15,7 @@ Motor::Motor(byte pinForward, byte pinBackward, byte pinEncoder){
     stop();
 }
 void Motor::internalRun(int velocidad){
-    if (abs(velocidad) < minvel){
+    if (abs(velocidad) <= minpulse){
         stop();
         return;
     }
@@ -39,7 +39,7 @@ void Motor::internalRun(int velocidad){
     }
 }
 void Motor::run(int velocidad){
-    if (velocidad == 0 || abs(velocidad) < minvel){
+    if (velocidad == 0 || abs(velocidad) <= minpulse){
         stop();
         return;
     }
@@ -56,13 +56,18 @@ void Motor::run(int velocidad){
 }
     
         
-unsigned long Motor::vel(){
+unsigned long Motor::timeToLine(){
     unsigned long result = pulseIn(pinE,HIGH,50000);
     while (result < 1000 && result != 0){
         result = pulseIn(pinE,HIGH,50000);
     }
     if (result == 0)
-        minvel = max(pulse,minvel);
+        minpulse = max(pulse,minpulse);
+    return result;
+}
+
+int Motor::rps(){
+    int result = 50000/timeToLine();
     return result;
 }
 
@@ -79,7 +84,7 @@ void Motor::calibrate(){
     for (cvel = -255;cvel <=255;cvel++){
         Serial.print(cvel);
         Serial.print(" ,");
-        Serial.println(vel());
+        Serial.println(timeToLine());
         delay(100);
         run(cvel);
         cvel++;
