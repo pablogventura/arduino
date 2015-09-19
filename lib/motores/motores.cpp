@@ -2,38 +2,58 @@
 #include "motor.h"
 #include <Arduino.h>
 
-int Motores::odoIzq = 0;
-int Motores::odoDer = 0;
+byte state = STOP;
+int odoIzq = 0;
+int odoDer = 0;
+Motor mIzq = Motor(5, 6, 2);
+Motor mDer = Motor(10, 11, 3);
 
-Motores::Motores(byte pinFi, byte pinBi, byte pinEi,byte pinFd, byte pinBd, byte pinEd){
-    mIzq = Motor(pinFi,pinBi,pinEi);
+void initMotores(){
     attachInterrupt(digitalPinToInterrupt(2), lineIzq, FALLING);
-    mDer = Motor(pinFd,pinBd,pinEd);
     attachInterrupt(digitalPinToInterrupt(3), lineDer, FALLING);
-    stop();
+    stopMotores();
 }
 
-void Motores::stop(){
+void stopMotores(){
+    state = STOP;
     mIzq.stop();
     mDer.stop();
 }
 
-void Motores::run(int vel, int distCM){
-    int dist = distCM * 2.71;
+void runMotores(int vel, int dist){
+    odoIzq = dist;
+    odoDer = dist;
     mIzq.run(vel);
     mDer.run(vel);
-    while ((Motores::odoIzq + Motores::odoDer)/2 < dist){
-        delay(1); // hay que poner algo sino el compilador saca todo el while
+}
+
+void turnMotores(int degrees){
+    int vel = 255;
+    if (degrees < 0){
+        vel=-vel;
+        degrees = -degrees;
     }
-    stop();
+    odoIzq = degrees;
+    odoDer = degrees;
+    mIzq.run(vel);
+    mDer.run(-vel);
 }
-void Motores::turn(int degrees){
-    mIzq.run(255);
-    mDer.run(-255);
+
+void lineIzq(){
+    Serial.println("izq");
+    if (odoIzq > 0){
+        odoIzq--;
+    } else {
+        odoIzq = 0;    
+        mIzq.stop();
+    }
 }
-void Motores::lineIzq(){
-    odoIzq++;
-}
-void Motores::lineDer(){
-    odoDer++;
+void lineDer(){
+    Serial.println("der");
+    if (odoDer > 0){
+        odoDer--;
+    } else {
+        odoDer = 0;    
+        mDer.stop();
+    }
 }

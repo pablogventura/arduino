@@ -3,26 +3,19 @@
 
 #include "Arduino.h"
 #include "motor.h"
-#define FORWARD  1
 #define BACKWARD 0
+#define FORWARD  1
+#define TURN     2
+#define STOP     3
 
-class Motores
-{
-private:
+void initMotores();
 
-    Motor mIzq;
-    Motor mDer;
+void stopMotores();
 
-public:
-    static int odoIzq;
-    static int odoDer;
+void runMotores(int vel, int dist);
 
-    // Constructores
-    Motores(byte pinFi, byte pinBi, byte pinEi,byte pinFd, byte pinBd, byte pinEd);
-    void stop(void);
-    void run(int vel, int distCM);
-    void turn(int degrees);
-    static void lineIzq();
-    static void lineDer();
-};
+void turnMotores(int degrees);
+
+void lineIzq();
+void lineDer();
 #endif

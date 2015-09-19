@@ -6,14 +6,14 @@
 #include "motores.h"
 #define VEL (5000)
 
-
-Motores motores = Motores(5, 6, 2, 10, 11, 3);
 void setup() {
 
     Serial.begin(9600);
     //mIzq.calibrate();
     //mDer.calibrate();
-    motores.run(255,100);
+    initMotores();
+    turnMotores(-60);
+   
 }
 
 void loop() {
