@@ -28,7 +28,9 @@ void runMotores(int vel, int dist){
 }
 
 void turnMotores(int degrees){
-    int vel = 255;
+    // 60 al encoder son 180 grados
+    int vel = 100;
+    degrees = map(degrees, -180, 180, -60, 60);
     if (degrees < 0){
         vel=-vel;
         degrees = -degrees;
