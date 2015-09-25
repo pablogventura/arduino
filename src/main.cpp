@@ -12,10 +12,12 @@ void setup() {
     //mIzq.calibrate();
     //mDer.calibrate();
     initMotores();
-    turnMotores(-60);
+    
    
 }
 
 void loop() {
+    turnMotores(45);
+    delay(3000);
     //TODO ACA TODO SE REPITE
 }
