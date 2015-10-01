@@ -20,6 +20,11 @@ void stopMotores(){
     mDer.stop();
 }
 
+void waitMotores(){
+    while ((odoIzq > 0) || (odoDer > 0)){
+        delay(1);
+    }
+}
 void runMotores(int vel, int dist){
     odoIzq = dist;
     odoDer = dist;

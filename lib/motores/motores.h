@@ -11,6 +11,7 @@
 void initMotores();
 
 void stopMotores();
+void waitMotores();
 
 void runMotores(int vel, int dist);
 

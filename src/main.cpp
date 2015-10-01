@@ -17,7 +17,11 @@ void setup() {
 }
 
 void loop() {
-    turnMotores(45);
-    delay(3000);
+    turnMotores(90);
+    waitMotores();
+    runMotores(100,120);
+    waitMotores();
+    runMotores(-100,120);
+    waitMotores();
     //TODO ACA TODO SE REPITE
 }
